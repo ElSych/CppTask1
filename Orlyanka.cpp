@@ -79,7 +79,7 @@ int bank;
 }; 
 class game{
 	public:	
-	game(int n, player *arr[], base *bs, ball *balls[]){ 
+	game(int n, player *arr[], base *bs, ball *balls[]){
 		for (int i = 0; i < n; i++){ 
 		if(((arr[i]->res-balls[i]->rad) < bs->x+bs->d) && ((arr[i]->res+balls[i]->rad) > bs->x-bs->d)){ 
 			cout << "Good hit, money is yours" << endl; 
@@ -91,16 +91,18 @@ class game{
 			}; 
 		} 
 		if (bs->bank != 0) 
-		cout << "There is no winner" << endl; 
+		cout << "There is no winner" << endl;
 	}
 }; 
-int main(){ 
+int main(){
+int choice;
 int num;
 	cout << "How many players?" << endl; 
 	cin >> num;
 player *players = new player[num];
-ball *balls = new ball[num]; 
-base bs(num, &players); 
+ball *balls = new ball[num];
+base bs(num, &players);
+gamestart:
 	for (int i = 0; i < num; i++){
 		balls[i].ballsize(&players, i);
 		balls[i].result(&players, i);
@@ -114,4 +116,18 @@ srand(time(NULL));
 	}; 
 cout << "Game started" << endl; 
  game gm(num, &players, &bs, &balls);
+    cout << "Another match?" << endl <<"1: Yes" << endl << "2: No"<< endl;
+	cin >> choice;
+	switch(choice){
+	    case 1:
+	    goto gamestart;
+	    break;
+	    case 2:
+	    "Okay";
+	    delete []players;
+	    delete []balls;
+	    break;
+	}
 }
+
+
