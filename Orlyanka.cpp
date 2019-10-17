@@ -1,88 +1,117 @@
-#include <iostream>
-#include <cmath>
-#include <string>
-#include <cstdlib>
-using namespace std;
-int g = 9.8;
+#include <iostream> 
+#include <cmath> 
+#include <string> 
+#include <cstdlib> 
+using namespace std; 
+const float g = 9.8;
+class ball;
+class base;
+class game;
 class player{
-	public:
-	char name[15];
 	int money;
-	int sp;
-	float a;
+	public: 
+	string name;
 	int res;
 	public:
+		friend ball;
+		friend base;
+		friend game;
 	player(){
-        cout << "Enter name:" << endl; 
-        cin >> name;
-        cout << "Enter money:" << endl;
-        cin >> money;
+		cout << "Enter name:" << endl;
+		cin >> name;
+		money = 100; 
+		}
+	void showplayer(){ 
+		cout << "Name: " << name << endl; 
+		cout << "Money: " << money << endl; 
 	}
-	void showplayer(){
-        cout << "Name:" << name << endl;
-        cout << "Money:" << money << endl;
-        cout << "Speed:" << sp << endl;
-        cout << "Angle:" << a << endl;
-    }
-};
-class base{
-	int bank;
-	public:
-	float x;
-	float d;
-	public:
-	int hit(int n, player *arr[]){
-	    for (int i = 0; i < n; i++){
-	    bank += arr[i]->money;
-	    arr[i]->money = 0;
-		if((arr[i]->res < x+d) && (arr[i]->res > x-d)){
-    	    cout << "Good hit, money is yours" << endl;
-    		arr[i]->money += bank;
-    		bank=0;
-    		}
-		else{
-		    cout << "Try again later" << endl;
-		};
-	    }
-	    if (bank != 0)
-	    cout << "There is no winner" << endl;
-	}
-};
-int initbase(base b){
-    srand(time(NULL));
-    b.x = rand()%100 + 10;
-    b.d = b.x*0.02;
-    cout << "Range is " << b.x << endl;
-    cout << "Area is " << b.d << endl;
-}
-int location(int speed, float angle, int n, player *arr[]){
-    for (int i = 0; i < n; i++){
-	arr[i]->res = 2*speed*sin(angle*0.017)/g;
-    }
-    }
-int main(){
-	int num;
-	base bs;
-	cout << "How many players?" << endl;
-	cin >> num;
-	player *mas = new player[num];
-	initbase(bs);
-    for (int i = 0; i < num; i++){
-        cout << "Enter speed:" << endl;
-        cin >> mas[i].sp;
-        cout << "Enter angle:" << endl;
-    	cin >> mas[i].a;
-        cout << "Player " << i << ":" << endl;
-        double r;
-        srand(time(NULL));
-        r=(rand()%110 + 90)/(100*1.0);
-        mas[i].sp *= r;
-        mas[i].showplayer();
-        cout << endl;
-    };
-    cout << "Game started" << endl;
-    for (int j = 0; j < num; j++){
-    location(mas[j].sp, mas[j].a, num, &mas);
-	bs.hit(num, &mas);
 	};
+class ball{
+	public:
+	float rad;
+	float angle;
+	float speed;
+	public:
+	int ballsize(player *arr[], int i){
+		int size;
+		cout << "Choose ball:" << endl << "1: small: 0.04m rad, price: free"<< endl << "2: medium: 0.07m rad, price: 10"<< endl << "3: big: 0.1m rad, price: 15" << endl;
+		cin >> size;
+		switch(size){
+			case 1:
+			rad = 0.04;
+			break;
+			case 2:
+			rad = 0.07;
+			arr[i]->money -=10;
+			break;
+			case 3:
+			rad = 0.1;
+			arr[i]->money -=15;
+			break;
+		}
+	}
+	int result(player *arr[], int i){
+		cout << "Player №" << i << ", enter speed:" << endl; 
+		cin >> speed; 
+		cout << "Player №" << i << ", enter angle:" << endl; 
+		cin >> angle; 
+		arr[i]->res = speed*speed*sin(2*angle*0.017)/g;
+	}
+};
+class base{ 
+int bank; 
+	public: 
+	float x; 
+	float d; 
+	public:
+	friend game;
+	base(int n, player *arr[]){
+		for (int i = 0; i < n; i++){
+			bank += arr[i]->money; 
+			arr[i]->money -= 50;
+		} 
+		srand(time(NULL)); 
+		x = rand()%100 + 10; 
+		d = x*0.02; 
+			cout << "Range is " << x << endl; 
+			cout << "Area is " << d << endl; 
+	} 
+}; 
+class game{
+	public:	
+	game(int n, player *arr[], base *bs, ball *balls[]){ 
+		for (int i = 0; i < n; i++){ 
+		if(((arr[i]->res-balls[i]->rad) < bs->x+bs->d) && ((arr[i]->res+balls[i]->rad) > bs->x-bs->d)){ 
+			cout << "Good hit, money is yours" << endl; 
+			arr[i]->money += bs->bank; 
+			bs->bank=0; 
+		} 
+		else{ 
+			cout << "Try again later" << endl; 
+			}; 
+		} 
+		if (bs->bank != 0) 
+		cout << "There is no winner" << endl; 
+	}
+}; 
+int main(){ 
+int num;
+	cout << "How many players?" << endl; 
+	cin >> num;
+player *players = new player[num];
+ball *balls = new ball[num]; 
+base bs(num, &players); 
+	for (int i = 0; i < num; i++){
+		balls[i].ballsize(&players, i);
+		balls[i].result(&players, i);
+		cout << "Player " << i << ":" << endl;
+		players[i].showplayer();
+		cout << endl; 
+double chance; 
+srand(time(NULL)); 
+	chance=(rand()%105 + 95)/(100*1.0); 
+	balls[i].speed *= chance; 
+	}; 
+cout << "Game started" << endl; 
+ game gm(num, &players, &bs, &balls);
 }
