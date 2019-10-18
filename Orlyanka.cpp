@@ -9,12 +9,11 @@ class base;
 class game;
 class player{
 	int money;
-	public: 
+public: 
 	string name;
 	int res;
-	public:
+public:
 		friend ball;
-		friend base;
 		friend game;
 	player(){
 		cout << "Enter name:" << endl;
@@ -27,11 +26,11 @@ class player{
 	}
 	};
 class ball{
-	public:
+public:
 	float rad;
 	float angle;
 	float speed;
-	public:
+public:
 	int ballsize(player *arr[], int i){
 		int size;
 		cout << "Choose ball:" << endl << "1: small: 0.04m rad, price: free"<< endl << "2: medium: 0.07m rad, price: 10"<< endl << "3: big: 0.1m rad, price: 15" << endl;
@@ -59,17 +58,11 @@ class ball{
 	}
 };
 class base{ 
-int bank; 
-	public: 
+public: 
 	float x; 
 	float d; 
-	public:
-	friend game;
-	base(int n, player *arr[]){
-		for (int i = 0; i < n; i++){
-			bank += arr[i]->money; 
-			arr[i]->money -= 50;
-		} 
+public:
+	base(){
 		srand(time(NULL)); 
 		x = rand()%100 + 10; 
 		d = x*0.02; 
@@ -78,19 +71,24 @@ int bank;
 	} 
 }; 
 class game{
-	public:	
+        int bank;
+public:
 	game(int n, player *arr[], base *bs, ball *balls[]){
+                for (int i = 0; i < n; i++){
+			bank += arr[i]->money; 
+			arr[i]->money -= 50;
+		}
 		for (int i = 0; i < n; i++){ 
 		if(((arr[i]->res-balls[i]->rad) < bs->x+bs->d) && ((arr[i]->res+balls[i]->rad) > bs->x-bs->d)){ 
 			cout << "Good hit, money is yours" << endl; 
-			arr[i]->money += bs->bank; 
-			bs->bank=0; 
+			arr[i]->money += bank; 
+			bank=0; 
 		} 
 		else{ 
 			cout << "Try again later" << endl; 
 			}; 
 		} 
-		if (bs->bank != 0) 
+		if (bank != 0) 
 		cout << "There is no winner" << endl;
 	}
 }; 
@@ -101,8 +99,8 @@ int num;
 	cin >> num;
 player *players = new player[num];
 ball *balls = new ball[num];
-base bs(num, &players);
-gamestart:
+base bs();
+  gamestart:
 	for (int i = 0; i < num; i++){
 		balls[i].ballsize(&players, i);
 		balls[i].result(&players, i);
@@ -110,11 +108,11 @@ gamestart:
 		players[i].showplayer();
 		cout << endl; 
 double chance; 
-srand(time(NULL)); 
+  srand(time(NULL)); 
 	chance=(rand()%105 + 95)/(100*1.0); 
 	balls[i].speed *= chance; 
 	}; 
-cout << "Game started" << endl; 
+ cout << "Game started" << endl; 
  game gm(num, &players, &bs, &balls);
     cout << "Another match?" << endl <<"1: Yes" << endl << "2: No"<< endl;
 	cin >> choice;
