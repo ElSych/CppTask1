@@ -19,12 +19,12 @@ public:
 		cout << "Enter name:" << endl;
 		cin >> name;
 		money = 100; 
-		}
+	}
 	void showplayer(){ 
 		cout << "Name: " << name << endl; 
 		cout << "Money: " << money << endl; 
 	}
-	};
+};
 class ball{
 public:
 	float rad;
@@ -86,7 +86,7 @@ public:
 		} 
 		else{ 
 			cout << "Try again later" << endl; 
-			}; 
+		}; 
 		} 
 		if (bank != 0) 
 		cout << "There is no winner" << endl;
