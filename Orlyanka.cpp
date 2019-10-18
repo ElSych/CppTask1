@@ -13,8 +13,8 @@ public:
 	string name;
 	int res;
 public:
-		friend ball;
-		friend game;
+	friend ball;
+	friend game;
 	player(){
 		cout << "Enter name:" << endl;
 		cin >> name;
