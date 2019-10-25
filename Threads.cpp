@@ -1,6 +1,5 @@
 #include <iostream> 
 #include <thread>
-#include <string>
 #include <vector>
 using namespace std; 
 int countArray(vector<int> &arr, int len) { 
