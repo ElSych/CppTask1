@@ -1,5 +1,5 @@
 #include "/usr/local/include/mosquittopp.h"
-#include "MosqMQTTWrapper.hpp"
+#include "MyMosq.hpp"
 #include <cstring>
 #include <cstdio>
 #include <iostream>
@@ -9,7 +9,7 @@
    myMosq::myMosq(const char *id, const char *host, int port) : mosquittopp(id){
       int keepalive = 60;
       connect(host, port, keepalive);
-      printf("Создал MQTTwrapper\n");
+      printf("Создал MQTT\n");
        };
     };
     myMosq::~myMosq() {
