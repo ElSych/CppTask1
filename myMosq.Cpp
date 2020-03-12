@@ -6,6 +6,7 @@
 #include <locale>
 #include <vector>
 #include <string>
+namespace MQTTW{
    myMosq::myMosq(const char *id, const char *host, int port) : mosquittopp(id){
       int keepalive = 60;
       connect(host, port, keepalive);
@@ -35,3 +36,4 @@
          std::cout<<message->payload<<std::endl;
       }
     }
+}
