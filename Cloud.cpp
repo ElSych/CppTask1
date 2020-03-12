@@ -1,5 +1,4 @@
 #include "Cloud.hpp"
-
     Cloud :: Cloud(){
       х = rand() % 61 - 30;
       y = 5 + rand() % 11;
@@ -38,4 +37,3 @@
       }
      cloudposition();
     }
-  };
