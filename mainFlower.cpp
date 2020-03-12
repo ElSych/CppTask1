@@ -27,15 +27,12 @@ int main(){
   threadsun.launch();
   threadcloud.launch();
   threadlamp.launch();
+  MyMosq* MyMQTT = new MyMosq("flower", "test.mosquitto.org", 1883);
+  InitMQTT(MyMQTT);
   do{
    if ((int t=clock()/CLOCKS_PER_SEC)%10==0)
-     l.show();
+     SendData(lamp, sun, MyMQTT);
   }
   while (t=clock()/CLOCKS_PER_SEC<200);
-  MyMosq* MyMQTT = new MyMosq("flower", "test.mosquitto.org", 1883);
-    InitMQTT(MyMQTT);
-
-    SendData(lamp, sun, MyMQTT);
-
     delete lamp;
 }
