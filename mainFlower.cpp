@@ -3,44 +3,11 @@
 #include <ctime>
 #include <SFML/System.hpp>
 #include <string>
+#include "Cloud.hpp"
+#include "Flower.hpp"
+#include "Lamp.hpp"
+#include "Sun.hpp"
 using namespace std;
-class flower{
-  int x;
-  int y;
-public:
-  flower(){
-    x = 0;
-    y = 0;
-  }
-  float getx(){
-    return x;
-  }
-  float gety(){
-    return y;
-  }
-  void putx(int x0){
-    x=x0;
-  }
-  void puty(int y0){
-    y=y0;
-  }
-};
-class lamp{
-  string mode;
-public:
-  string getmode(){
-    return mode;
-  }
-  void switchmode(int onoff){
-    if (onoff==1)
-      mode = "ON";
-    else
-      mode = "OFF";
-  }
-  void show(){
-   cout << "Lamp is " << mode << endl; 
-  }
-}
 void lampmode(cloud &c, sun &s, flower &f, lamp &l){
   int x1 = c.getx();
   int y1 = y2 = c.gety();
