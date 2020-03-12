@@ -3,10 +3,7 @@
 #include <ctime>
 #include <SFML/System.hpp>
 #include <string>
-#include "Cloud.hpp"
-#include "Flower.hpp"
-#include "Lamp.hpp"
-#include "Sun.hpp"
+#include "MQTTFlowerLamp.hpp"
 using namespace std;
 void lampmode(cloud &c, sun &s, flower &f, lamp &l){
   int x1 = c.getx();
@@ -35,4 +32,10 @@ int main(){
      l.show();
   }
   while (t=clock()/CLOCKS_PER_SEC<200);
+  MyMosq* MyMQTT = new MyMosq("flower", "test.mosquitto.org", 1883);
+    InitMQTT(MyMQTT);
+
+    SendData(lamp, sun, MyMQTT);
+
+    delete lamp;
 }
