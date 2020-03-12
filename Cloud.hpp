@@ -4,7 +4,7 @@
 #include <SFML/System.hpp>
 #include <string>
 using namespace std;
-  class cloud{
+  class Cloud{
     float lengh;
     int x;
     int y;
@@ -17,3 +17,4 @@ using namespace std;
     void putx(int x0);
     void puty(int y0);
     void cloudposition();
+  };
